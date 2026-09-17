@@ -34,6 +34,9 @@ public class DatabaseUrlProcessor implements EnvironmentPostProcessor {
         String[] parts = userInfo.split(":", 2);
         int port = uri.getPort() > 0 ? uri.getPort() : 5432;
         String jdbc = "jdbc:postgresql://" + uri.getHost() + ":" + port + uri.getPath();
+        if (!jdbc.contains("sslmode=")) {
+            jdbc += jdbc.contains("?") ? "&sslmode=require" : "?sslmode=require";
+        }
 
         Map<String, Object> props = new HashMap<>();
         props.put("spring.datasource.url", jdbc);

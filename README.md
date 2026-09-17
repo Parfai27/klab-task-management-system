@@ -208,18 +208,26 @@ docker-compose.yml
 
 Search, UI + API validation, Swagger, integration tests, Docker, and a kanban layout with priority rails and a create/edit drawer.
 
-Authentication, pagination, and a hosted demo of the API are not included with the static UI alone. Netlify hosts the React frontend; the Spring Boot API and PostgreSQL must run on a Java-capable host (Render, Railway, or a VPS). Set `VITE_API_URL` in the Netlify build to that API URL, and add the Netlify site origin to `CORS_ORIGINS`.
-
 Live frontend: [https://task-manager-parfait.netlify.app](https://task-manager-parfait.netlify.app)
 
-The UI is hosted on Netlify. Task data still requires the Spring Boot API and PostgreSQL on a Java host.
+Pushes to `main` rebuild the UI through GitHub Actions (`.github/workflows/deploy-frontend.yml`). Set the repository variable `VITE_API_URL` to the public API origin so the board can load tasks.
+
+## Hosted API (Render)
+
+Netlify only serves the static UI. PostgreSQL and the Spring Boot API run on Render (`render.yaml`):
+
+1. Create a free Postgres instance named `task-db`.
+2. Create a Docker web service from `backend/Dockerfile`, with `DATABASE_URL` from that database and `CORS_ORIGINS=https://task-manager-parfait.netlify.app`.
+3. After the API URL exists, set GitHub variable `VITE_API_URL` (no trailing slash) and push, or re-run the deploy workflow.
+
+The API also accepts Render-style `postgres://` `DATABASE_URL` values and exposes `GET /health`.
 
 ## Deploy on Netlify
 
 The frontend is configured for Netlify via `netlify.toml` (build from `frontend/`, publish `dist`, SPA fallback).
 
 1. Push this repository to GitHub.
-2. In Netlify: **Add new site → Import an existing project** and select the repo.
+2. In Netlify: **Add new site → Import an existing project** and select the repo, **or** keep using the GitHub Actions deploy.
 3. Confirm base directory `frontend`, build command `npm run build`, publish directory `dist`.
 4. Add environment variable `VITE_API_URL` = your public API URL (for example `https://your-api.onrender.com`).
 5. Deploy.
