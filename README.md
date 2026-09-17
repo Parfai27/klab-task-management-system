@@ -210,7 +210,9 @@ Search, UI + API validation, Swagger, integration tests, Docker, and a kanban la
 
 Live frontend: [https://task-manager-parfait.netlify.app](https://task-manager-parfait.netlify.app)
 
-Pushes to `main` rebuild the UI through GitHub Actions (`.github/workflows/deploy-frontend.yml`). Set the repository variable `VITE_API_URL` to the public API origin so the board can load tasks.
+Live API: [https://task-api-u99u.onrender.com](https://task-api-u99u.onrender.com) (`GET /health`)
+
+Pushes to `main` rebuild the UI through GitHub Actions (`.github/workflows/deploy-frontend.yml`). The repository variable `VITE_API_URL` should be the public API origin (no trailing slash) so the board can load tasks.
 
 ## Hosted API (Render)
 

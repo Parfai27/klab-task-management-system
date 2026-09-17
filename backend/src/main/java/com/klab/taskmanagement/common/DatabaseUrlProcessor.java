@@ -29,24 +29,32 @@ public class DatabaseUrlProcessor implements EnvironmentPostProcessor {
             return;
         }
 
-        URI uri = URI.create(databaseUrl.replaceFirst("^postgres(ql)?://", "http://"));
-        String userInfo = uri.getUserInfo() == null ? "" : URLDecoder.decode(uri.getUserInfo(), StandardCharsets.UTF_8);
-        String[] parts = userInfo.split(":", 2);
-        int port = uri.getPort() > 0 ? uri.getPort() : 5432;
-        String jdbc = "jdbc:postgresql://" + uri.getHost() + ":" + port + uri.getPath();
-        if (!jdbc.contains("sslmode=")) {
-            jdbc += jdbc.contains("?") ? "&sslmode=require" : "?sslmode=require";
-        }
+        try {
+            URI uri = URI.create(databaseUrl.replaceFirst("^postgres(ql)?://", "http://"));
+            String userInfo = uri.getUserInfo() == null ? "" : URLDecoder.decode(uri.getUserInfo(), StandardCharsets.UTF_8);
+            String[] parts = userInfo.split(":", 2);
+            int port = uri.getPort() > 0 ? uri.getPort() : 5432;
+            String host = uri.getHost();
+            if (host != null && !host.contains(".")) {
+                host = host + ".oregon-postgres.render.com";
+            }
+            String jdbc = "jdbc:postgresql://" + host + ":" + port + uri.getPath();
+            if (!jdbc.contains("sslmode=")) {
+                jdbc += jdbc.contains("?") ? "&sslmode=require" : "?sslmode=require";
+            }
 
-        Map<String, Object> props = new HashMap<>();
-        props.put("spring.datasource.url", jdbc);
-        if (parts.length > 0 && !parts[0].isBlank()) {
-            props.put("spring.datasource.username", parts[0]);
+            Map<String, Object> props = new HashMap<>();
+            props.put("spring.datasource.url", jdbc);
+            if (parts.length > 0 && !parts[0].isBlank()) {
+                props.put("spring.datasource.username", parts[0]);
+            }
+            if (parts.length > 1) {
+                props.put("spring.datasource.password", parts[1]);
+            }
+            environment.getPropertySources().addFirst(new MapPropertySource("databaseUrl", props));
+        } catch (RuntimeException ignored) {
+            // Fall through to application.yml defaults if the URL cannot be parsed.
         }
-        if (parts.length > 1) {
-            props.put("spring.datasource.password", parts[1]);
-        }
-        environment.getPropertySources().addFirst(new MapPropertySource("databaseUrl", props));
     }
 
     private static String firstNonBlank(String... values) {
