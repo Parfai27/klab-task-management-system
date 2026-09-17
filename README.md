@@ -210,6 +210,10 @@ Search, UI + API validation, Swagger, integration tests, Docker, and a kanban la
 
 Authentication, pagination, and a hosted demo of the API are not included with the static UI alone. Netlify hosts the React frontend; the Spring Boot API and PostgreSQL must run on a Java-capable host (Render, Railway, or a VPS). Set `VITE_API_URL` in the Netlify build to that API URL, and add the Netlify site origin to `CORS_ORIGINS`.
 
+Live frontend: [https://task-manager-parfait.netlify.app](https://task-manager-parfait.netlify.app)
+
+The UI is hosted on Netlify. Task data still requires the Spring Boot API and PostgreSQL on a Java host.
+
 ## Deploy on Netlify
 
 The frontend is configured for Netlify via `netlify.toml` (build from `frontend/`, publish `dist`, SPA fallback).
