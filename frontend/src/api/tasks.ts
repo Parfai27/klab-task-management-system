@@ -1,6 +1,8 @@
 import type { Task, TaskRequest, TaskStatus } from '../types'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? ''
+const API_BASE =
+  import.meta.env.VITE_API_URL?.replace(/\/$/, '') ||
+  (import.meta.env.PROD ? 'https://task-api-u99u.onrender.com' : '')
 
 async function readError(response: Response): Promise<string> {
   try {
