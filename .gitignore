@@ -15,8 +15,8 @@ frontend/dist/
 dist/
 *.tsbuildinfo
 
-# Environment
-.env
+# Netlify CLI
+.netlify/
 .env.local
 .env.*.local
 
