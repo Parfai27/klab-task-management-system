@@ -18,7 +18,7 @@ server:
 
 app:
   cors:
-    origins: ${CORS_ORIGINS:http://localhost:*,http://127.0.0.1:*}
+    origins: ${CORS_ORIGINS:https://task-manager-parfait.netlify.app,http://localhost:*,http://127.0.0.1:*}
 
 springdoc:
   swagger-ui:

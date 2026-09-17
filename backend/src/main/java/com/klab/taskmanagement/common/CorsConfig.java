@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
-    @Value("${app.cors.origins:http://localhost:5173,http://localhost:3000}")
+    @Value("${app.cors.origins:https://task-manager-parfait.netlify.app,http://localhost:*,http://127.0.0.1:*}")
     private String origins;
 
     @Bean
