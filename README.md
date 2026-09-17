@@ -2,6 +2,18 @@
 
 A full-stack web app for managing personal tasks. The React UI talks to a Spring Boot REST API; tasks are stored in PostgreSQL.
 
+## Live demo
+
+| | URL |
+| --- | --- |
+| Frontend (Netlify) | [https://task-manager-parfait.netlify.app](https://task-manager-parfait.netlify.app) |
+| API (Render) | [https://task-api-u99u.onrender.com](https://task-api-u99u.onrender.com) |
+| Health check | [https://task-api-u99u.onrender.com/health](https://task-api-u99u.onrender.com/health) |
+| Swagger UI | [https://task-api-u99u.onrender.com/swagger-ui.html](https://task-api-u99u.onrender.com/swagger-ui.html) |
+| Source | [https://github.com/Parfai27/klab-task-management-system](https://github.com/Parfai27/klab-task-management-system) |
+
+Pushes to `main` that touch `frontend/` rebuild the Netlify site via GitHub Actions. Backend changes auto-deploy on Render.
+
 ## Features
 
 - Kanban board: **Pending** and **Completed** columns
@@ -207,12 +219,6 @@ docker-compose.yml
 ## Optional extras
 
 Search, UI + API validation, Swagger, integration tests, Docker, and a kanban layout with priority rails and a create/edit drawer.
-
-Live frontend: [https://task-manager-parfait.netlify.app](https://task-manager-parfait.netlify.app)
-
-Live API: [https://task-api-u99u.onrender.com](https://task-api-u99u.onrender.com) (`GET /health`)
-
-Pushes to `main` rebuild the UI through GitHub Actions (`.github/workflows/deploy-frontend.yml`). The repository variable `VITE_API_URL` should be the public API origin (no trailing slash) so the board can load tasks.
 
 ## Hosted API (Render)
 
